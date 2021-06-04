@@ -1,0 +1,350 @@
+Drop DATABASE irc_sftr_db;
+Create DATABASE irc_sftr_db;
+
+USE `irc_sftr_db`;
+
+# Data tables
+CREATE TABLE sector_reporting_counterparty (
+sector_Id int PRIMARY KEY,
+sector_Name varchar(255),
+sector_class varchar(255)
+);
+insert into sector_reporting_counterparty (sector_Id, sector_Name, sector_class) values (1, "CDTI", "F");
+insert into sector_reporting_counterparty (sector_Id, sector_Name, sector_class) values (2, "INVF", "F");
+insert into sector_reporting_counterparty (sector_Id, sector_Name, sector_class) values (3, "INUN", "F");
+insert into sector_reporting_counterparty (sector_Id, sector_Name, sector_class) values (4, "AIFD", "F");
+insert into sector_reporting_counterparty (sector_Id, sector_Name, sector_class) values (5, "ORPI", "F");
+insert into sector_reporting_counterparty (sector_Id, sector_Name, sector_class) values (6, "CCPS", "F");
+insert into sector_reporting_counterparty (sector_Id, sector_Name, sector_class) values (7, "REIN", "F");
+insert into sector_reporting_counterparty (sector_Id, sector_Name, sector_class) values (8, "UCIT", "F");
+insert into sector_reporting_counterparty (sector_Id, sector_Name, sector_class) values (9, "A", "N");
+insert into sector_reporting_counterparty (sector_Id, sector_Name, sector_class) values (10, "B", "N");
+insert into sector_reporting_counterparty (sector_Id, sector_Name, sector_class) values (11, "C", "N");
+insert into sector_reporting_counterparty (sector_Id, sector_Name, sector_class) values (12, "D", "N");
+insert into sector_reporting_counterparty (sector_Id, sector_Name, sector_class) values (13, "E", "N");
+insert into sector_reporting_counterparty (sector_Id, sector_Name, sector_class) values (14, "F", "N");
+insert into sector_reporting_counterparty (sector_Id, sector_Name, sector_class) values (15, "G", "N");
+insert into sector_reporting_counterparty (sector_Id, sector_Name, sector_class) values (16, "H", "N");
+
+
+CREATE TABLE counterparty_side(
+cp_side_Id int PRIMARY KEY,
+cp_side varchar(255)
+);
+insert into counterparty_side (cp_side_Id, cp_side) values (1, "GIVE");
+insert into counterparty_side (cp_side_Id, cp_side) values (2, "TAKE");
+
+
+CREATE TABLE additional_sector_classification (
+asc_id int PRIMARY KEY,
+as_classification varchar(255)
+);
+insert into additional_sector_classification (asc_id, as_classification) values (1, "ETFT");
+insert into additional_sector_classification (asc_id, as_classification) values (2, "MMFT");
+insert into additional_sector_classification (asc_id, as_classification) values (3, "REIT");
+insert into additional_sector_classification (asc_id, as_classification) values (4, "OTHR");
+
+
+CREATE TABLE typeOfSFT (
+sft_Id int PRIMARY KEY,
+sft_Name varchar(255),
+sft_symbol varchar(255)
+);
+insert into typeOfSFT (sft_Id, sft_Name, sft_symbol) values (1, "Sec-Com Lending", "SLEB");
+insert into typeOfSFT (sft_Id, sft_Name, sft_symbol) values (2, "Buy-Sell Back", "SBSC");
+insert into typeOfSFT (sft_Id, sft_Name, sft_symbol) values (3, "Repurchase", "REPO");
+insert into typeOfSFT (sft_Id, sft_Name, sft_symbol) values (4, "Margin Lending", "MGLD");
+
+CREATE TABLE levels (
+level_Id int PRIMARY KEY,
+level_name varchar(255)
+);
+insert into levels(level_Id, level_name) values (1, "TCTN");
+insert into levels(level_Id, level_name) values (2, "PSTN");
+
+CREATE TABLE counterparty_nature (
+cp_nature_Id int PRIMARY KEY,
+cp_nature varchar(255)
+);
+insert into counterparty_nature (cp_nature_Id, cp_nature) values (1, "F");
+insert into counterparty_nature (cp_nature_Id, cp_nature) values (2, "N");
+
+
+CREATE TABLE time_period (
+time_period_Id int PRIMARY KEY,
+time_period varchar(255)
+);
+insert into time_period (time_period_Id, time_period) values (1, "DAYS");
+insert into time_period (time_period_Id, time_period) values (2, "WEEK");
+insert into time_period (time_period_Id, time_period) values (3, "MNTH");
+insert into time_period (time_period_Id, time_period) values (4, "YEARS");
+
+
+CREATE TABLE day_count_convention (
+day_count_convention_Id int PRIMARY KEY,
+day_count_convention varchar(255)
+);
+insert into day_count_convention (day_count_convention_Id, day_count_convention) values (1, "A001");
+insert into day_count_convention (day_count_convention_Id, day_count_convention) values (2, "A002");
+insert into day_count_convention (day_count_convention_Id, day_count_convention) values (3, "A003");
+insert into day_count_convention (day_count_convention_Id, day_count_convention) values (4, "A004");
+insert into day_count_convention (day_count_convention_Id, day_count_convention) values (5, "A005");
+
+
+CREATE TABLE country (
+country_Id int PRIMARY KEY,
+country_code varchar(255),
+currency varchar(255)
+);
+insert into country (country_Id, country_code, currency) values (1, "AU", "AUD");
+insert into country (country_Id, country_code, currency) values (2, "GB", "GBP");
+insert into country (country_Id, country_code, currency) values (3, "CA", "CAD");
+insert into country (country_Id, country_code, currency) values (4, "CN", "CNY");
+insert into country (country_Id, country_code, currency) values (5, "US", "USD");
+insert into country (country_Id, country_code, currency) values (6, "SF", "CHF");
+
+
+CREATE TABLE company(
+company_Id int PRIMARY KEY,
+company_Name varchar(255),
+LEI varchar(255),
+entity_Status varchar(255),
+reg_Status varchar(255),
+country_Code int,
+FOREIGN KEY (country_Code) REFERENCES country (country_Id)
+);
+insert into company (company_Id, company_Name, LEI, entity_Status, reg_Status, country_Code) values (1, "Power Key Tech Ltd", "213800TNE2T7JWBU1F08", "ACTIVE", "ISSUED", 1);
+insert into company (company_Id, company_Name, LEI, entity_Status, reg_Status, country_Code) values (2, "Sunlight Trading Limited", "549300UQBC19UZXVMX66", "ACTIVE", "LAPSED", 1);
+insert into company (company_Id, company_Name, LEI, entity_Status, reg_Status, country_Code) values (3, "ASO FAL Limited", "549300SC000TFX78OJ56", "ACTIVE", "ISSUED", 1);
+insert into company (company_Id, company_Name, LEI, entity_Status, reg_Status, country_Code) values (4, "GMK (UK) LTD.", "0WWZ9WRSWZSADGTPNI62", "ACTIVE", "LAPSED", 2);
+insert into company (company_Id, company_Name, LEI, entity_Status, reg_Status, country_Code) values (5, "MayStreet Inc.", "529900QLDAN2XU8BS954", "ACTIVE", "ISSUED", 6);
+insert into company (company_Id, company_Name, LEI, entity_Status, reg_Status, country_Code) values (6, "Looco Global Limited", "635400G3RNEPCOTPUU17", "ACTIVE", "ISSUED", 2);
+insert into company (company_Id, company_Name, LEI, entity_Status, reg_Status, country_Code) values (7, "Foods Connected Limited", "635400K8WAJII51TXD95", "ACTIVE", "LAPSED", 3);
+insert into company (company_Id, company_Name, LEI, entity_Status, reg_Status, country_Code) values (8, "Newell Inpack Limited", "635400ZZGS5FDNUIJX46", "ACTIVE", "ISSUED", 3);
+insert into company (company_Id, company_Name, LEI, entity_Status, reg_Status, country_Code) values (9, "The Evergreen Trust", "5XGKDHLH62U8HHSAE460", "ACTIVE", "ISSUED", 3);
+insert into company (company_Id, company_Name, LEI, entity_Status, reg_Status, country_Code) values (10, "Chem China", "254900Z1ZDU16E6MW063", "ACTIVE", "LAPSED", 4);
+insert into company (company_Id, company_Name, LEI, entity_Status, reg_Status, country_Code) values (11, "Nakano Asset Global Ltd", "984500485WFD7AEERE20", "ACTIVE", "ISSUED", 4);
+insert into company (company_Id, company_Name, LEI, entity_Status, reg_Status, country_Code) values (12, "Primetals Technologies", "549300UQBC19UZXVMX69", "ACTIVE", "ISSUED", 4);
+insert into company (company_Id, company_Name, LEI, entity_Status, reg_Status, country_Code) values (13, "ASGC Limited", "549300SC000TFX78OJ50", "ACTIVE", "LAPSED", 5);
+insert into company (company_Id, company_Name, LEI, entity_Status, reg_Status, country_Code) values (14, "Rannoch Food Group", "549300EMLOHM364UFN59", "ACTIVE", "ISSUED", 5);
+insert into company (company_Id, company_Name, LEI, entity_Status, reg_Status, country_Code) values (15, "Stonecot Home Limited", "391200YU2FJSIHN2L502", "ACTIVE", "ISSUED", 6);
+insert into company (company_Id, company_Name, LEI, entity_Status, reg_Status, country_Code) values (16, ""Lobortis Risus In LLC"", "129306HU2FJSIHN2L212", "ACTIVE", "ISSUED", 2);
+insert into company (company_Id, company_Name, LEI, entity_Status, reg_Status, country_Code) values (17, "Eleifend Non Dapibus Associates", "135210485WFD7AEERE20", "ACTIVE", "ISSUED", 6);
+insert into company (company_Id, company_Name, LEI, entity_Status, reg_Status, country_Code) values (18, "Ligula Aenean Euismod PC", "9TTS9WRSWZSADGTANI26", "ACTIVE", "ISSUED", 1);
+insert into company (company_Id, company_Name, LEI, entity_Status, reg_Status, country_Code) values (19, "Augue Scelerisque Mollis Foundation", "546300BG2FJSIHN2L501", "ACTIVE", "ISSUED", 5);
+insert into company (company_Id, company_Name, LEI, entity_Status, reg_Status, country_Code) values (20, "Nunc Sed Pede Ltd", "886200FD3BDSIJN2L543", "ACTIVE", "ISSUED", 4);
+insert into company (company_Id, company_Name, LEI, entity_Status, reg_Status, country_Code) values (21, "Nunc Commodo Company", "991200GU2JJSIAN2L122", "ACTIVE", "ISSUED", 5);
+insert into company (company_Id, company_Name, LEI, entity_Status, reg_Status, country_Code) values (22, "Mollis Vitae Ltd", "321200YG2GJSIZN2L111", "ACTIVE", "ISSUED", 3);
+insert into company (company_Id, company_Name, LEI, entity_Status, reg_Status, country_Code) values (23, "Auctor Incorporated", "461200TE2DJSIHN2L657", "ACTIVE", "ISSUED", 1);
+insert into company (company_Id, company_Name, LEI, entity_Status, reg_Status, country_Code) values (24, "Phasellus Incorporated", "491244SW4HGHIHG2L765", "ACTIVE", "ISSUED", 6);
+
+
+
+
+
+CREATE TABLE collateral_component_type(
+col_comp_Id int PRIMARY KEY,
+col_comp_type varchar(255)
+);
+insert into collateral_component_type (col_comp_Id, col_comp_type) values (1, "SECU");
+insert into collateral_component_type (col_comp_Id, col_comp_type) values (2, "COMM");
+insert into collateral_component_type (col_comp_Id, col_comp_type) values (3, "CASH");
+
+
+CREATE TABLE collateral_quality(
+col_qual_Id int PRIMARY KEY,
+col_qual_type varchar(255)
+);
+insert into collateral_quality (col_qual_Id, col_qual_type) values (1, "INVG");
+insert into collateral_quality (col_qual_Id, col_qual_type) values (2, "NIVG");
+insert into collateral_quality (col_qual_Id, col_qual_type) values (3, "NOTR");
+insert into collateral_quality (col_qual_Id, col_qual_type) values (4, "NOAP");
+
+
+CREATE TABLE collateral_types(
+col_type_Id int PRIMARY KEY,
+col_type varchar(255)
+);
+insert into collateral_types(col_type_Id, col_type) values (1, "GOVS");
+insert into collateral_types(col_type_Id, col_type) values (2, "SUNS");
+insert into collateral_types(col_type_Id, col_type) values (3, "FIDE");
+insert into collateral_types(col_type_Id, col_type) values (4, "NFID");
+insert into collateral_types(col_type_Id, col_type) values (5, "SEPR");
+insert into collateral_types(col_type_Id, col_type) values (6, "CDO");
+insert into collateral_types(col_type_Id, col_type) values (7, "CMBS");
+insert into collateral_types(col_type_Id, col_type) values (8, "ABCP");
+insert into collateral_types(col_type_Id, col_type) values (9, "MEQU");
+insert into collateral_types(col_type_Id, col_type) values (10, "OEQU");
+insert into collateral_types(col_type_Id, col_type) values (11, "OTHR");
+
+
+CREATE TABLE funding_sources(
+funding_sources_Id int PRIMARY KEY,
+funding_source varchar(255)
+);
+insert into funding_sources (funding_sources_Id, funding_source) values (1, "REPO");
+insert into funding_sources (funding_sources_Id, funding_source) values (2, "SECL");
+insert into funding_sources (funding_sources_Id, funding_source) values (3, "FREE");
+insert into funding_sources (funding_sources_Id, funding_source) values (4, "CSHS");
+insert into funding_sources (funding_sources_Id, funding_source) values (5, "BSHS");
+insert into funding_sources (funding_sources_Id, funding_source) values (6, "UBOR");
+insert into funding_sources (funding_sources_Id, funding_source) values (7, "OTHR");
+
+
+CREATE TABLE action_types(
+action_type_Id int PRIMARY KEY,
+action_type varchar(255)
+);
+insert into action_types() values (1, "NEWT");
+insert into action_types() values (2, "MODI");
+insert into action_types() values (3, "VALU");
+insert into action_types() values (4, "COLU");
+insert into action_types() values (5, "EROR");
+insert into action_types() values (6, "CORR");
+insert into action_types() values (7, "ETRM");
+insert into action_types() values (8, "POSC");
+insert into action_types() values (9, "REUU");
+
+
+CREATE TABLE method_to_provide_collateral(
+method_Id int PRIMARY KEY,
+method_name varchar(255)
+);
+insert into method_to_provide_collateral(method_Id, method_name)  values (1, "TTCA");
+insert into method_to_provide_collateral(method_Id, method_name)  values (2, "SICA");
+insert into method_to_provide_collateral(method_Id, method_name)  values (3, "SIUR");
+
+
+CREATE TABLE floating_rate(
+floating_rate_Id int PRIMARY KEY,
+floating_rate_index varchar(255)
+);
+insert into floating_rate (floating_rate_Id, floating_rate_index) values (1, "EONA");
+insert into floating_rate (floating_rate_Id, floating_rate_index) values (2, "EONS");
+insert into floating_rate (floating_rate_Id, floating_rate_index) values (3, "EURI");
+insert into floating_rate (floating_rate_Id, floating_rate_index) values (4, "EUUS");
+insert into floating_rate (floating_rate_Id, floating_rate_index) values (5, "EUCH");
+insert into floating_rate (floating_rate_Id, floating_rate_index) values (6, "GCFR");
+insert into floating_rate (floating_rate_Id, floating_rate_index) values (7, "ISDA");
+insert into floating_rate (floating_rate_Id, floating_rate_index) values (8, "LIBI");
+insert into floating_rate (floating_rate_Id, floating_rate_index) values (9, "LIBO");
+insert into floating_rate (floating_rate_Id, floating_rate_index) values (10, "MAAA");
+insert into floating_rate (floating_rate_Id, floating_rate_index) values (11, "PFAN");
+insert into floating_rate (floating_rate_Id, floating_rate_index) values (12, "TIBO");
+insert into floating_rate (floating_rate_Id, floating_rate_index) values (13, "STBO");
+insert into floating_rate (floating_rate_Id, floating_rate_index) values (14, "BBSW");
+insert into floating_rate (floating_rate_Id, floating_rate_index) values (15, "JIBA");
+insert into floating_rate (floating_rate_Id, floating_rate_index) values (16, "BUBO");
+insert into floating_rate (floating_rate_Id, floating_rate_index) values (17, "CDOR");
+insert into floating_rate (floating_rate_Id, floating_rate_index) values (18, "CIBO");
+insert into floating_rate (floating_rate_Id, floating_rate_index) values (19, "MOSP");
+insert into floating_rate (floating_rate_Id, floating_rate_index) values (20, "NIBO");
+insert into floating_rate (floating_rate_Id, floating_rate_index) values (21, "PRBO");
+insert into floating_rate (floating_rate_Id, floating_rate_index) values (22, "TLBO");
+insert into floating_rate (floating_rate_Id, floating_rate_index) values (23, "WIBO");
+insert into floating_rate (floating_rate_Id, floating_rate_index) values (24, "TREA");
+insert into floating_rate (floating_rate_Id, floating_rate_index) values (25, "SWAP");
+insert into floating_rate (floating_rate_Id, floating_rate_index) values (26, "FUSW");
+
+
+# Entity tables
+CREATE TABLE Counter_party (
+counter_Party_Id int PRIMARY KEY auto_increment,
+counterPartyName varchar(255),
+report_submitting_entity varchar(255),
+reporting_counterparty varchar(255),
+reporting_timestamp varchar(255),
+other_counterparty varchar(255),
+entity_responsible_for_report varchar(255),
+branch_reporting_counter_party varchar(255),
+branch_other_counterparty varchar(255),
+other_counterparty_country varchar(255),
+counter_party_nature varchar(255),
+additional_sector_classification varchar(255),
+sector_of_reporting_counterparty varchar(255), 
+counterparty_side varchar(255)
+);
+#Counter Party
+-- insert into Counter_party(counter_Party_Id, counterPartyName, report_submitting_entity, reporting_counterparty, other_counterparty, entity_responsible_for_report, branch_reporting_counter_party, branch_other_counterparty, other_counterparty_country, counter_party_nature, additional_sector_classification ,sector_of_reporting_counterparty, counterparty_side) values (1, 'HSBC', 1, 1, 2, 3, 2, 5, 1, 1, 2, 3, 1);
+-- insert into Counter_party(counter_Party_Id, counterPartyName, report_submitting_entity, reporting_counterparty, other_counterparty, entity_responsible_for_report, branch_reporting_counter_party, branch_other_counterparty, other_counterparty_country, counter_party_nature, additional_sector_classification ,sector_of_reporting_counterparty, counterparty_side) values (2, 'Llyods', 2, 2, 1, 2, 3, 4, 2, 2, 1, 2, 2);
+
+
+CREATE TABLE Transactions (
+transaction_Id int PRIMARY KEY auto_increment,
+type_of_SFT varchar(255),
+event_date varchar(255),
+execution_timestamp varchar(255),
+termination_date varchar(255)
+);
+-- insert into Transactions (transaction_Id, type_of_SFT, event_date, execution_timestamp, termination_date) values (1, 1, "29/06/2020", "2020-06-29T13:30:30Z", "30/06/2020");
+-- insert into Transactions (transaction_Id, type_of_SFT, event_date, execution_timestamp, termination_date) values (2, 3, "29/06/2020", "2020-06-29T13:30:30Z", "30/06/2020");
+
+
+CREATE TABLE Collateral (
+collateral_Id int PRIMARY KEY auto_increment,
+LEI_of_issuer varchar(255),
+jurisdiction_of_issuer varchar(255),
+reused_collateral_currency varchar(255),
+funding_sources_currency varchar(255),
+funding_sources varchar(255),
+price_currency varchar(255),
+currency_collateral_nom_amount varchar(255),
+collateral_component varchar(255),
+collateral_quality varchar(255),
+collateral_type varchar(255),
+action_type varchar(255),
+method_to_provide_collateral varchar(255),
+collateral_market_value varchar(255),
+price_per_unit  varchar(255),
+collateral_quantity_or_nom_amount  varchar(255),
+haircut_or_margin  varchar(255),
+Market_value_of_funding_sources  varchar(255),
+Estimated_reuse_of_collateral  varchar(255),
+Value_of_reused_collateral  varchar(255),
+Maturity_date_of_the_security  varchar(255),
+Classification_of_security_used_as_collateral  varchar(255),
+Identification_of_security_as_collateral  varchar(255),
+Availability_for_collateral_reuse  bool
+);
+-- insert into Collateral(collateral_Id, LEI_of_issuer, jurisdiction_of_issuer, reused_collateral_currency, funding_sources_currency, funding_sources, price_currency, currency_collateral_nom_amount, collateral_component, collateral_quality, collateral_type, action_type, method_to_provide_collateral, collateral_market_value, price_per_unit, collateral_quantity_or_nom_amount, haircut_or_margin, Market_value_of_funding_sources, Estimated_reuse_of_collateral, Value_of_reused_collateral, Maturity_date_of_the_security, Classification_of_security_used_as_collateral, Identification_of_security_as_collateral, Availability_for_collateral_reuse) values (1, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, true);
+-- insert into Collateral(collateral_Id, LEI_of_issuer, jurisdiction_of_issuer, reused_collateral_currency, funding_sources_currency, funding_sources, price_currency, currency_collateral_nom_amount, collateral_component, collateral_quality, collateral_type, action_type, method_to_provide_collateral, collateral_market_value, price_per_unit, collateral_quantity_or_nom_amount, haircut_or_margin, Market_value_of_funding_sources, Estimated_reuse_of_collateral, Value_of_reused_collateral, Maturity_date_of_the_security, Classification_of_security_used_as_collateral, Identification_of_security_as_collateral, Availability_for_collateral_reuse) values (2, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, false);
+
+
+CREATE TABLE Principle(
+principle_Id int PRIMARY KEY auto_increment,
+day_count_convention varchar(255),
+float_ref_period_time varchar(255),
+float_pay_freq_time varchar(255),
+float_reset_freq_time varchar(255),
+margin_currency varchar(255),
+outstanding_ML_base_currency varchar(255),
+floating_rate varchar(255),
+fixed_rate varchar(255),
+outstanding_margin_loan varchar(255),
+short_market_value varchar(255), 
+margin_currency_amount varchar(255),
+float_ref_period_multi varchar(255),
+float_pay_freq_multi varchar(255),
+float_reset_freq_multi varchar(255),
+spread varchar(255)
+);
+-- insert into Principle (principle_Id, day_count_convention, float_ref_period_time, float_pay_freq_time ,float_reset_freq_time, margin_currency, outstanding_ML_base_currency, floating_rate, fixed_rate, outstanding_margin_loan, short_market_value, margin_currency_amount, float_ref_period_multi, float_pay_freq_multi, float_reset_freq_multi, spread) values (1, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2);
+-- insert into Principle (principle_Id, day_count_convention, float_ref_period_time, float_pay_freq_time ,float_reset_freq_time, margin_currency, outstanding_ML_base_currency, floating_rate, fixed_rate, outstanding_margin_loan, short_market_value, margin_currency_amount, float_ref_period_multi, float_pay_freq_multi, float_reset_freq_multi, spread) values (2, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1);
+
+
+CREATE TABLE Trades(
+trade_Id int PRIMARY KEY auto_increment,
+trade_type varchar(255),
+data_quality varchar(255),
+level varchar(255),
+transactions int,
+counter_party int,
+collateral int,
+principle int,
+FOREIGN KEY (transactions) REFERENCES Transactions (transaction_Id),
+FOREIGN KEY (counter_party) REFERENCES Counter_party (counter_Party_Id),
+FOREIGN KEY (collateral) REFERENCES Collateral (collateral_Id),
+FOREIGN KEY (principle) REFERENCES Principle (principle_Id)
+);
+-- insert into Trades (trade_Id, trade_type, Transactions, Counter_party, Collateral, Principle) values (1, "Margin Lending", 1, 1, 1, 1);
+-- insert into Trades (trade_Id, trade_type, Transactions, Counter_party, Collateral, Principle) values (2, "Margin Lending", 2, 2, 2, 2);
